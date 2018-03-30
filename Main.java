@@ -28,7 +28,7 @@ public class Main {
 	public static int getOldestYear() {
 		@SuppressWarnings("resource")
 		Scanner input = new Scanner(System.in);
-		System.out.println("Bitte das Aufnahmejahr des ältesten Bilds eingeben:");
+		System.out.println("Bitte das Aufnahmejahr des Ã¤ltesten Bilds eingeben:");
 		String oldestYear = input.nextLine();
 		int year1 = Integer.parseInt(oldestYear);
 		return year1;
@@ -60,8 +60,12 @@ public class Main {
 				if (dirYearF.exists() == false) {
 					dirYearF.mkdirs();
 					createMonths(dir, year1, file, separator);
+					year1++;
+					break;
 				} else {
 					createMonths(dir, year1, file, separator);
+					year1++;
+					break;
 				}
 			} else {
 				year1++;
@@ -73,32 +77,23 @@ public class Main {
 		// Erstellen der Jahres-und Monatsordner, falls nicht vorhanden
 		int i = 1;
 		while (i <= 12) {
-			String month = String.format("%02d", i); // führende Nullen bei int
+			String month = String.format("%02d", i); // fÃ¼hrende Nullen bei int
 			String dirYearMonthS = dir + "/" + year1 + "/" + month + "/";
 			File dirYearMonthF = new File(dirYearMonthS); // erzeugt Zielpfad
-			String dirNew = dirYearMonthS + file.getName(); // gibt Pfad + Dateinamen zurück
+			String dirNew = dirYearMonthS + file.getName(); // gibt Pfad + Dateinamen zurÃ¼ck
 			dirNew2 = new File(dirNew);
 			if (file.getName().contains(separator + year1 + month)) {
-				if (dirYearMonthF.exists()) { // prüft, ob der Zielpfad schon existiert
+				if (dirYearMonthF.exists()) { // prÃ¼ft, ob der Zielpfad schon existiert
 					Files.copy(file.toPath(), dirNew2.toPath(), StandardCopyOption.REPLACE_EXISTING);
-					i = i+1;
+					break;
 				} else {
 					dirNew2.mkdirs();
 					Files.copy(file.toPath(), dirNew2.toPath(), StandardCopyOption.REPLACE_EXISTING);
-					i++;
+					break;
 				}
-			}else {
+			} else {
 				i++;
 			}
-		}					
-	}
-
-	public static void copyFile(File file, File dirNew2) throws IOException {
-		if (dirNew2.exists()) {
-			Files.copy(file.toPath(), dirNew2.toPath(), StandardCopyOption.REPLACE_EXISTING);
-		} else {
-			dirNew2.mkdirs();
-			Files.copy(file.toPath(), dirNew2.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
 
@@ -120,9 +115,6 @@ public class Main {
 					files.add(file.getName());
 
 					createYears(year1, year2, file, separator, dir);
-					// copyFile(file, dirNew2);
-
-					// doShit(dirYearMonthF, getOldestYear(), file, dir);
 				}
 
 				// file.delete();

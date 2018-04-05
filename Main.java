@@ -60,10 +60,12 @@ public class Main {
 				if (dirYearF.exists() == false) {
 					dirYearF.mkdirs();
 					createMonths(dir, year1, file, separator);
+					file.delete();
 					year1++;
 					break;
 				} else {
 					createMonths(dir, year1, file, separator);
+					file.delete();
 					year1++;
 					break;
 				}
